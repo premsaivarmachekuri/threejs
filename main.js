@@ -18,14 +18,18 @@ function addCube(x, y, z) {
   this.cube = new THREE.Mesh(this.geometry, this.material);
   this.cube.position.set(this.val1, this.val2, this.val3);
   scene.add(this.cube);
+  this.animate = () => {
+    this.cube.rotation.x += 0.01;
+    this.cube.rotation.y += 0.01;
+    renderer.render(scene,camera)
+  };
+  this.startAnimation = function(){
+      renderer.setAnimationLoop(this.animate);
+  }
 }
 
-addCube.prototype.animate = function() {
-  this.cube.rotation.x += 0.01;
-  this.cube.rotation.y += 0.01;
-  renderer.render(scene, camera);
-};
 
+console.log(addCube.prototype)
 let cube1 = new addCube(2, 3, 1);
 let cube2 = new addCube(1, 1, 1);
 
@@ -34,9 +38,6 @@ scene.add(axesHelper);
 
 camera.position.set(0, 2, 5);
 
-renderer.setAnimationLoop(() => {
-  cube1.animate();
-  cube2.animate();
-});
+cube1.startAnimation();
 
 renderer.render(scene, camera);
